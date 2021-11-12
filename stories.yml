@@ -1,0 +1,69 @@
+version: "2.0"
+
+stories:
+
+- story: nenhuma consulta
+  steps:
+  - intent: greet
+  - action: utter_greet
+  - intent: deny
+  - action: utter_goodbye
+
+- story: consulta interativa path 1
+  steps:
+  - intent: greet
+  - action: utter_greet
+  - intent: affirm
+  - action: consulta_form
+  - active_loop: consulta_form
+  - action: utter_duvida_operacao
+  - slot_was_set:
+    - requested_slot: operacao
+  - action: utter_duvida_data
+  - slot_was_set:
+    - requested_slot: data
+  - action: utter_duvisa_horario
+  - slot_was_set:
+    - requested_slot: horario
+  - action: utter_submit
+  - action: utter_slot_valores
+  - intent: obrigado
+  - action: utter_sem_problemas
+  - action: utter_goodbye
+
+
+- story: User interrupts the form and doesn't want to continue
+  steps:
+  - intent: greet
+  - action: utter_greet
+  - intent: affirm
+  - action: consulta_forms
+  - active_loop: consulta_form
+  - intent: pare
+  - action: utter_ask_continue
+  - or: 
+    - intent: pare
+    - intent: affirm
+  - action: action_deactivate_loop
+  - active_loop: null
+
+- story: interactive_story_2
+  steps:
+  - intent: greet
+  - action: utter_greet
+  - intent: affirm
+  - action: consulta_form
+  - active_loop: consulta_form
+  - action: utter_duvida_operacao
+  - slot_was_set:
+    - requested_slot: operacao
+  - intent: pare
+  - action: utter_ask_continue
+  - intent: pare
+  - action: action_deactivate_loop
+  - active_loop: null
+  - slot_was_set:
+    - requested_slot: null
+  - intent: goodbye
+  - action: utter_goodbye
+
