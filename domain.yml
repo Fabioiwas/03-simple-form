@@ -1,0 +1,89 @@
+version: '2.0'
+session_config:
+  session_expiration_time: 60
+  carry_over_slots_to_new_session: true
+
+intents:
+ - goodbye
+ - greet
+ - affirm
+ - deny
+ - inform
+ - out_of_scope
+ - obrigado
+ - pergunta_operacoes
+ - pare
+ - quero_consulta
+
+entities: 
+- data
+- horario
+- operacao
+
+responses:
+  utter_greet:
+  - text: "Ola. Como vai? Posso te ajudar a fazer uma consulta com um profissional de saude. Se esta interessado, eh so falar comigo!"
+  utter_happy:
+  - text: Great, carry on!
+  utter_goodbye:
+  - text: Adeus!
+  utter_sem_problemas:
+  - text: Sem problemas!
+  utter_duvida_operacao:
+  - text: "Bem, para comecar, que tipo de operacao, exame ou consulta voce quer?"
+  utter_duvida_data:
+  - text: "Muito bom. Em que dia deste mes voce quer agendar a operacao? Lembrando que sabado, domingo e feriados nao sao dias que podem ser agendados"
+  utter_duvida_horario:
+  - text: "So mais um passo. Em que horario eh melhor para voce? Os professionais de saude comecam o trabalho as 8h e finalizam as 17h e fazem atendimento de 30min de 30min. Assim, se puder atender depois das 10:50, pode-se responder 11:00"
+  utter_continuar:
+  - text: "Desculpe-me, nao entendi sua resposta. Voce deseja continuar com a conversa?"
+  utter_slot_valores:
+  - text: "Aqui estao as informacoes que voce marcou para a consulta:\n
+            - Operacao: {operacao}\n
+            - Data: {data}\n
+            - Horario: {horario}\n
+            "
+  utter_informacao_operacao:
+  - text: "As operacoes disponiveis para voce fazer sao: Documentacao ortodontica; Tomografia; Radiografia panoramica; e Telerradiografia"
+  utter_submit:
+  - text: "Sua consulta foi agendada!"
+
+forms:
+    consulta_form:
+      required_slots:
+        data:
+          - entity: data
+            type: from_entity
+        horario:
+          - entity: horario
+            type: from_entity
+        operacao:
+          - entity: operacao
+            type: from_entity
+
+slots: 
+    operacao:
+        type: text
+        influence_conversation: true
+    data:
+        type: text
+        influence_conversation: true
+    horario:
+        type: text
+        influence_conversation: true
+    requested_slot:
+        type: unfeaturized
+        influence_conversation: false
+
+actions:
+ - utter_goodbye
+ - utter_greet
+ - utter_duvida_operacao
+ - utter_duvida_data
+ - utter_duvida_horario
+ - utter_slot_valores
+ - utter_continuar
+ - utter_informacao_operacao
+ - utter_submit
+
+
